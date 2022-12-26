@@ -3,8 +3,10 @@ package me.gracenam.springcore.application;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 
 @Slf4j
 public class CustomAnnotationConfigApplicationContextTest {
@@ -21,7 +23,9 @@ public class CustomAnnotationConfigApplicationContextTest {
 
     @Test
     public void config_beanFactory() {
-        final BeanFactory context = new ClassPathXmlApplicationContext("xml/application.xml");
+        DefaultListableBeanFactory context = new DefaultListableBeanFactory();
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
+        reader.loadBeanDefinitions(new ClassPathResource("xml/application.xml"));
 
         log.debug("before getBean()");
 
